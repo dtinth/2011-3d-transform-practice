@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<title>Hall</title>
+<style>
+body {
+	background: black;
+	overflow: hidden;
+}
+.box {
+	position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+}
+#view {
+	-webkit-perspective: 140;
+}
+#hall {
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform: translateZ(100px);
+}
+.image {
+	background-size: 100% 100%;
+	position: absolute;
+}
+
+#back { background-image: url(evans_hall-BACK.jpg); }
+#left { background-image: url(evans_hall-LEFT.jpg); }
+#right { background-image: url(evans_hall-RIGHT.jpg); }
+#ceiling { background-image: url(evans_hall-CEILING.jpg); }
+#floor { background-image: url(evans_hall-FLOOR.jpg); }
+
+#back    { top: 0; left: 0; bottom: 0; right: 0; -webkit-transform: translateZ(-1024px); }
+#left    { top: 0; bottom: 0; left: 0; width: 1024px;    -webkit-transform-origin: left;   -webkit-transform: rotateY(90deg) }
+#right   { top: 0; bottom: 0; right: 0; width: 1024px;   -webkit-transform-origin: right;  -webkit-transform: rotateY(-90deg) }
+#ceiling { left: 0; right: 0; top: 0; height: 1024px;    -webkit-transform-origin: top;    -webkit-transform: rotateX(-90deg) }
+#floor   { left: 0; right: 0; bottom: 0; height: 1024px; -webkit-transform-origin: bottom; -webkit-transform: rotateX(90deg) }
+
+#cover { -webkit-transform: translateZ(0); background: #000; pointer-events: none; }
+#ovp {
+	-webkit-perspective: 600px;
+}
+#overlay {
+	position: absolute;
+	-webkit-transform: translateZ(0px) rotateY(0);
+	top: 52%; font: 16px/1.6 Helvetica;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	color: rgba(255,255,255,0.8);
+	padding: 30px 50px;
+	-webkit-transition: 5s -webkit-transform;
+}
+.hidden#overlay {
+	-webkit-transform: translateZ(800px) rotateY(-30deg);
+}
+</style><body>
+<div id="view" class="box">
+	<div id="hall" class="box">
+		<div id="back" class="box image"></div>
+		<div id="left" class="image"></div>
+		<div id="right" class="image"></div>
+		<div id="ceiling" class="image"></div>
+		<div id="floor" class="image"></div>
+	</div>
+</div>
+<div id="ovp" class="box">
+	<div id="overlay" class="hidden">
+		<div style="font: bold 30px Lucida Grande">Powered by CSS3 3D Transforms</div>
+		<div style="padding-top: 10px">
+			HTML+CSS version made by @dtinth.<br>
+			<b>Thanks</b>: @Beam_Magic for the original idea.<br>
+			Image from: http://www.eecis.udel.enu/~mills/gallery/gallery3.html
+		</div>
+	</div>
+</div>
+<div id="cover" class="box"></div>
+<script>
+window.onload = function() {
+	var hall = document.getElementById('hall');
+	var cover = document.getElementById('cover');
+	var x = 0.5, y = -0.5, mx = -0.5, my = 	0.3, opacity = 1;
+	document.getElementById('overlay').className = '';
+	window.onmousemove = function(e) {
+		mx = e.clientX / window.innerWidth - 0.5;
+		my = e.clientY / window.innerHeight - 0.5;
+	};
+	setInterval(function() {
+		opacity *= 0.98;
+		x += (mx - x) / 20;
+		y += (my - y) / 20;
+		cover.style.opacity = opacity * 0.8 + 0.2;
+		hall.style.WebkitTransform = 'translateZ(100px) translateX(' + (x * 50) + '%) translateY(' + (y * 25 + 10) + '%) rotateY(' + (x * 10) + 'deg) rotateX(' + (y * -7) + 'deg)';
+	}, 20);
+};
+</script>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<style>
+body {
+	background: #000;
+}
+
+.box {
+	position: absolute;
+	background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#123));
+	top: 0; right: 0; bottom: 0; left: 0;
+}
+#view {
+	-webkit-perspective: 600px;
+}
+#cube {
+	position: absolute;
+	top: 50%; left: 50%;
+	width: 400px; height: 400px;
+	margin-top: -200px; margin-left: -200px;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform: translateZ(-30000px) rotateX(0deg);
+}
+#rotate {
+	-webkit-transform-style: preserve-3d;
+	-webkit-animation: rotate 10s infinite linear;
+}
+@-webkit-keyframes rotate {
+	from {
+		-webkit-transform: rotateY(0deg);
+	}
+	to {
+		-webkit-transform: rotateY(360deg);
+	}
+}
+.nyan {
+	position: absolute;
+	top: 0; left: 0; width: 400px; height: 400px;
+	background: url(nyan.gif);
+	-webkit-backface-visibility: hidden;
+}
+#s1 { -webkit-transform: rotateY(0deg) translateZ(200px); }
+#s2 { -webkit-transform: rotateY(90deg) translateZ(200px); }
+#s3 { -webkit-transform: rotateY(180deg) translateZ(200px); }
+#s4 { -webkit-transform: rotateY(270deg) translateZ(200px); }
+#s1, #s2, #s3, #s4 { -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.4, transparent), to(rgba(0,0,0,0.5))); }
+#s5 { -webkit-transform: rotatex(90deg) translateZ(200px); }
+h1 { position: absolute; top: 10px; right: 0; left: 0; font: 60px Impact; text-align: center;
+	color: #fae; text-shadow: 0 0px 10px #369, 0 0 30px #369; -webkit-text-stroke: 1.5px black;
+	-webkit-transform: translateZ(0); }
+</style><title>NON-STOP NYAN CUBE!</title>
+<body>
+<div class="box" id="view">
+	<div id="cube">
+		<div id="rotate">
+			<div class="nyan" id="s1"></div>
+			<div class="nyan" id="s2"></div>
+			<div class="nyan" id="s3"></div>
+			<div class="nyan" id="s4"></div>
+			<div class="nyan" id="s5"></div>
+		</div>
+	</div>
+</div>
+<h1>NON-STOP NYAN CUBE</h1>
+<script>
+window.onload = function() {
+	var cube = document.getElementById('cube');
+	var x = 0.5, y = -0.5, mx = -0.5, my = 	0.3, z = 10000;
+	window.onmousemove = function(e) {
+		mx = e.clientX / window.innerWidth - 0.5;
+		my = e.clientY / window.innerHeight - 0.5;
+	};
+	setInterval(function() {
+		x += (mx - x) / 20;
+		y += (my - y) / 20;
+		z *= 0.98;
+		cube.style.WebkitTransform = 'translateZ(' + (-300 - z) + 'px) rotateX(' + (Math.exp(y * -6) * -10 + 3) + 'deg) rotateY(' + (x * 100) + 'deg)';
+	}, 20);
+};
+</script>
+
